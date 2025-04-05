@@ -1,5 +1,18 @@
 ;; -*- lexical binding: t; -*
-;; -*- lexical-binding: t; -*-
+
+;; most-important-relative line numbers :) and glob
+
+(setq-default indent-tabs-mode t)
+(setq-default tab-width        7)
+
+
+(setq display-line-numbers-type 'relative)
+
+(global-display-line-numbers-mode 1)
+
+(set-face-attribute 'line-number-current-line nil
+		    :weight 'bold
+		    :foreground "orange")
 
 (setq
  inhibit-startup-message t
@@ -45,7 +58,7 @@
 (when (fboundp 'on-platform-do)
   (on-platform-do
    ((windows cygwin) (set-face-attribute 'default nil :font "Fira Mono:antialias=subpixel" :height 130)) ; Win
-   (osx              (set-face-attribute 'default nil :font "Fira Mono" :height 170))                    ; macOS
+   (osx              (set-face-attribute 'default nil :font "Fira Mono"  :height 70))                    ; macOS
    (linux            (set-face-attribute 'default nil :font "Iosevka"  :height 100))))                   ; Linux
 
 ;; Theme
@@ -91,6 +104,11 @@
   :config
   (ivy-mode 1))
 
+(use-package counsel
+  :after ivy
+  :config
+  (counsel-mode 1))
+
 ;; Evil-mode
 (use-package evil
   :init
@@ -114,6 +132,4 @@
   :config
   (evil-collection-init))
 
-(use-package neotree
-             :config
-             (evil-ex-define-cmd "Ex" 'neotree-toggle))
+(evil-ex-define-cmd "Ex" 'counsel-find-file)
