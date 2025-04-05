@@ -1,11 +1,11 @@
 ;; -*- lexical binding: t; -*
 ;; -*- lexical-binding: t; -*-
 
-(setq 
+(setq
  inhibit-startup-message t
 
  auto-save-default nil
- 
+
  make-backup-files nil
 
  set-mark-command-repeat-pop t
@@ -37,15 +37,13 @@
 (global-visual-line-mode      1)  ; Visually wrap long lines in all buffers
 (global-auto-revert-mode      1)  ; Refresh buffers with changed local files
 
-(setq-default indent-tabs-mode nil
-              tab-width        6)
 
 ;; Delete trailing whitespace before saving
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Font configuration (you had a misplaced parenthesis and missing macro)
 (when (fboundp 'on-platform-do)
-  (on-platform-do 
+  (on-platform-do
    ((windows cygwin) (set-face-attribute 'default nil :font "Fira Mono:antialias=subpixel" :height 130)) ; Win
    (osx              (set-face-attribute 'default nil :font "Fira Mono" :height 170))                    ; macOS
    (linux            (set-face-attribute 'default nil :font "Iosevka"  :height 100))))                   ; Linux
@@ -58,7 +56,7 @@
 
 ;; Init package sources
 (require 'package)
-(setq package-archives 
+(setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
         ("org"   . "https://orgmode.org/elpa/")
         ("elpa"  . "https://elpa.gnu.org/packages/")))
@@ -116,3 +114,6 @@
   :config
   (evil-collection-init))
 
+(use-package neotree
+             :config
+             (evil-ex-define-cmd "Ex" 'neotree-toggle))
