@@ -80,7 +80,11 @@
 (require 'completion)
 
 ;; load formatters
-(require 'c_formatter_42)
+(require 'c-formatter-42)
+(setq c-formatter-42-exec "$HOME/.local/bin/c_formatter_42")
+(setq c-formatter-42-set-equalprg 1)
+(setq c-formatter-42-format-on-save 1)
+(setq norminette-command  "$HOME/.local/bin/norminette")
 
 ;; Extra Evil command
 (evil-ex-define-cmd "Ex" 'counsel-find-file)
