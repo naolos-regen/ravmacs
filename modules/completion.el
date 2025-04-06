@@ -17,10 +17,17 @@
   :config
   (ivy-mode 1))
 
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+
 (use-package counsel
   :after ivy
-  :config
-  (counsel-mode 1))
+  :bind (("M-x"     . counsel-M-x)
+	  ("C-x b"   . counsel-ibuffer)
+	  ("C-x C-f" . counsel-find-file)
+	  :map minibuffer-local-map
+	  ("C-r"     . counsel-minibuffer-history)))
 
 (provide 'completion)
-

@@ -8,11 +8,16 @@
 
 (setq display-line-numbers-type 'relative)
 
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode t)
 
 (set-face-attribute 'line-number-current-line nil
 		    :weight 'bold
 		    :foreground "orange")
+
+(dolist (mode '(org-mode-hook
+		  term-mode-hook
+		  eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (setq
  inhibit-startup-message t
@@ -62,7 +67,7 @@
    (linux            (set-face-attribute 'default nil :font "Iosevka"  :height 100))))                   ; Linux
 
 ;; Theme
-(load-theme 'wombat t)
+(load-theme 'leuven-dark t)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -75,6 +80,8 @@
 ;; load core configs
 (require 'packages)
 (require 'evil-config)
+(require 'wk)
+(require 'gen-conf)
 
 ;; load modules
 (require 'completion)
