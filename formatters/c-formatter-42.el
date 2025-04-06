@@ -31,6 +31,11 @@
   :type 'string
   :group 'c-formatter-42)
 
+(defcustom c-formatter-42-keybinding "<f2>"
+  "The Keybinding for triggering C code formatting with c_formatter_42."
+  :type 'string
+  :group 'c-formatter-42)
+
 ;(defun c-formatter-42-install ()
 ;  "Ensure that c_formatter_42 is installed."
 ;  (unless (executable-find c-formatter-42-exec)
@@ -70,7 +75,7 @@
 
 (defvar c-formatter-42-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "<f2>") 'c-formatter-42)
+    (define-key map (kbd c-formatter-42-keybinding) 'c-formatter-42)
     map)
   "Keymap for c-formatter-42 minor mode.")
 
