@@ -67,69 +67,20 @@
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; Init package sources
-(require 'package)
-(setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("org"   . "https://orgmode.org/elpa/")
-        ("elpa"  . "https://elpa.gnu.org/packages/")))
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
+;; Set load-path to include core and modules
+(add-to-list 'load-path "~/.config/ravmacs/core")
+(add-to-list 'load-path "~/.config/ravmacs/modules")
+(add-to-list 'load-path "~/.config/ravmacs/formatters")
 
-;; Ensure use-package is installed
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;; load core configs
+(require 'packages)
+(require 'evil-config)
 
-(require 'use-package)
-(setq use-package-always-ensure t)  ;; typo lol
+;; load modules
+(require 'completion)
 
-;; Ivy-mode
-(use-package ivy
-  :diminish
-  :bind (
-         ("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+;; load formatters
+(require 'c_formatter_42)
 
-(use-package counsel
-  :after ivy
-  :config
-  (counsel-mode 1))
-
-;; Evil-mode
-(use-package evil
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-want-C-u-scroll t
-        evil-want-C-i-jump nil
-        evil-respect-visual-line-mode t)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
-
-;; Evil Collection
-(use-package evil-collection
-  :after evil
-  :custom
-  (evil-collection-outline-bind-tab-p nil)
-  :config
-  (evil-collection-init))
-
+;; Extra Evil command
 (evil-ex-define-cmd "Ex" 'counsel-find-file)
