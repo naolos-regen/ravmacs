@@ -76,6 +76,7 @@
 (add-to-list 'load-path "~/.config/ravmacs/core")
 (add-to-list 'load-path "~/.config/ravmacs/modules")
 (add-to-list 'load-path "~/.config/ravmacs/formatters")
+(add-to-list 'load-path "~/.config/ravmacs/lsp")
 
 ;; load core configs
 (require 'packages)
@@ -85,6 +86,9 @@
 
 ;; load modules
 (require 'completion)
+
+;; load lsp
+(require 'conf)
 
 ;; load formatters
 (require 'c-formatter-42)
