@@ -39,5 +39,6 @@
 
 (require 'oh-haskell)
 (require 'oh-c)
+(require 'oh-zig)
 (require 'ada-modulo)
 (provide 'conf)
