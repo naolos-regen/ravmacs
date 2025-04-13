@@ -1,5 +1,6 @@
 ;; -*- lexical binding: t; -*
 
+
 ;; most-important-relative line numbers :) and glob
 
 (setq-default indent-tabs-mode t)
@@ -89,12 +90,20 @@
 ;; load lsp
 (require 'conf)
 
+;; set path-correctly
+(use-package exec-path-from-shell
+  :if (display-graphic-p)
+  :config
+  (exec-path-from-shell-initialize))
+
+; or manually (setenv "PATH" (concat (getenv "PATH")
+;":$HOME/.local/bin")) (add-to-list 'exec-path "$HOME/.local/bin")
+
+
 ;; load formatters
 (require 'c-formatter-42)
-(setq c-formatter-42-exec "$HOME/.local/bin/c_formatter_42")
 (setq c-formatter-42-set-equalprg 1)
 (setq c-formatter-42-format-on-save 1)
-(setq norminette-command  "$HOME/.local/bin/norminette")
 
 ;; Extra Evil command
 (evil-ex-define-cmd "Ex" 'counsel-find-file)
@@ -103,10 +112,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(ccls company-box counsel evil-collection general haskell-mode
-	   helpful hydra ivy-rich lsp-ui neotree rainbow-delimiters
-	   zig-mode)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

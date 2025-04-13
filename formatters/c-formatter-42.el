@@ -52,14 +52,16 @@
   (interactive)
   (let ((pos (point))
         (inhibit-read-only t)
-        (deactivate-mark nil)  ;; Prevent selection
-        (mark-active nil))     ;; Tell Emacs there's no active region
+        (deactivate-mark nil)
+        (mark-active nil))
     (save-excursion
       (let ((equalprg-temp (executable-find "equalprg")))
         (setq-local equalprg c-formatter-42-exec)
         (shell-command-on-region (point-min) (point-max) c-formatter-42-exec nil t)
         (setq-local equalprg equalprg-temp)))
     (goto-char pos)))
+
+
 
 (defun norminette ()
   "Run Norminette on the current file and display the result in a new buffer."
