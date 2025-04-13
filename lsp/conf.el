@@ -4,14 +4,26 @@
   :commands (lsp lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")
+
+  ;; disable ccls formatting here
+  (setq lsp-clients-ccls-initialization-options
+        '(:index (:comments 2)
+          :completion (:detailedLabel t)
+          :clang (:extraArgs ["-Wall" "-Wextra"])))
+
   :hook (
-	  (haskell-mode . lsp)
-	  (c-moce       . lsp)
-	  (c++-mode     . lsp)
-	  (ada-mode     . lsp)
-	  )
+         (haskell-mode . lsp)
+         (c-mode       . lsp)
+         (c++-mode     . lsp)
+         (ada-mode     . lsp)
+         )
   :config
   (lsp-enable-which-key-integration t))
+
+(setq lsp-enable-on-type-formatting nil)
+(setq lsp-enable-indentation nil)
+(setq lsp-enable-formatting nil)
+
 
 ;; completions with company-mode
 

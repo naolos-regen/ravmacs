@@ -36,6 +36,11 @@
   :type 'string
   :group 'c-formatter-42)
 
+(defcustom norminette-keybinding "<f4>"
+  "Keybinding to run Norminette on current C file."
+  :type 'string
+  :group 'c-formatter-42)
+
 ;(defun c-formatter-42-install ()
 ;  "Ensure that c_formatter_42 is installed."
 ;  (unless (executable-find c-formatter-42-exec)
@@ -45,26 +50,35 @@
 (defun c-formatter-42 ()
   "Format the current buffer using the c_formatter_42 tool."
   (interactive)
-  (save-excursion
-    (let ((equalprg-temp (executable-find "equalprg")))
-      (setq-local equalprg c-formatter-42-exec)
-      (shell-command-on-region (point-min) (point-max) c-formatter-42-exec nil t)
-      (setq-local equalprg equalprg-temp))))
+  (let ((pos (point))
+        (inhibit-read-only t)
+        (deactivate-mark nil)  ;; Prevent selection
+        (mark-active nil))     ;; Tell Emacs there's no active region
+    (save-excursion
+      (let ((equalprg-temp (executable-find "equalprg")))
+        (setq-local equalprg c-formatter-42-exec)
+        (shell-command-on-region (point-min) (point-max) c-formatter-42-exec nil t)
+        (setq-local equalprg equalprg-temp)))
+    (goto-char pos)))
 
 (defun norminette ()
   "Run Norminette on the current file and display the result in a new buffer."
   (interactive)
-  (let ((current-file (expand-file-name (buffer-file-name))))
-    (let ((buf (get-buffer-create "*Norminette Result*")))
-      (with-current-buffer buf
-        (erase-buffer)
-        (insert (format "Norminette result for %s\n" current-file))
-        (insert (make-string 80 ?-) "\n")
-        (insert (shell-command-to-string (format "%s %s" norminette-command current-file)))
-        (goto-char (point-min))
-        (display-buffer buf)
-        (setq-local buffer-read-only t)
-        (setq-local truncate-lines t)))))
+  (let ((current-file (buffer-file-name)))
+    (when current-file
+      (let ((buf (get-buffer-create "*Norminette Result*")))
+        (with-current-buffer buf
+          (let ((inhibit-read-only t))
+            (erase-buffer)
+            (insert (format "Norminette result for %s\n" current-file))
+            (insert (make-string 80 ?-) "\n")
+            (insert (shell-command-to-string (format "%s %s"
+                                                     norminette-command
+                                                     (shell-quote-argument current-file)))))
+          (goto-char (point-min))
+          (setq-local buffer-read-only t)
+          (setq-local truncate-lines t))
+        (display-buffer buf)))))
 
 ;;;###autoload
 (add-hook 'before-save-hook
@@ -76,6 +90,7 @@
 (defvar c-formatter-42-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd c-formatter-42-keybinding) 'c-formatter-42)
+    (define-key map (kbd norminette-keybinding) 'norminette)
     map)
   "Keymap for c-formatter-42 minor mode.")
 
@@ -98,6 +113,11 @@
 
 ;;;###autoload
 (c-formatter-42-enable-equalprg)
+
+(with-eval-after-load 'lsp-mode
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-enable-indentation nil))
+
 
 (provide 'c-formatter-42)
 
