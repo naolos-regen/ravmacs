@@ -102,7 +102,6 @@
 
 ;; load formatters
 (require 'c-formatter-42)
-(setq c-formatter-42-set-equalprg 1)
 (setq c-formatter-42-format-on-save 1)
 
 ;; Extra Evil command
