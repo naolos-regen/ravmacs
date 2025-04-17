@@ -102,7 +102,7 @@
 
 ;; load formatters
 (require 'c-formatter-42)
-(setq c-formatter-42-format-on-save 1)
+(setq c-formatter-42-format-on-save 0)
 
 ;; Extra Evil command
 (evil-ex-define-cmd "Ex" 'counsel-find-file)

@@ -9,8 +9,7 @@
   (setq lsp-clients-ccls-initialization-options
         '(:index (:comments 2)
           :completion (:detailedLabel t)
-          :clang (:extraArgs ["-Wall" "-Wextra"])))
-
+          :clang (:extraArgs ["-Wall" "-Wextra" "-Werror"])))
   :hook (
          (haskell-mode . lsp)
          (c-mode       . lsp)

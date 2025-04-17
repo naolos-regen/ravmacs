@@ -4,10 +4,6 @@
 ;; This package integrates the c_formatter_42 tool into Emacs for formatting C code.
 ;; It also allows running Norminette on C files for style checking.
 
-;;; This package uses norminette software
-;; Copyright (c) 2020 42 Association
-;; See the full license in NORMINETTE_LICENSE file.
-
 ;;; Code:
 
 (defgroup c-formatter-42 nil
@@ -40,17 +36,7 @@
   :type 'string
   :group 'c-formatter-42)
 
-;; TODO: maybe implement later
-; (defun c-formatter-42-install ()
-;  "Ensure that c_formatter_42 is installed."
-;  (unless (executable-find c-formatter-42-exec)
-;    (message "Installing c_formatter_42...")
-;    (shell-command "pip3 install --user c-formatter-42")))
-
 ;;; Format the current buffer with c_formatter_42
-;; set the position of the cursor to the line it was on.
-;; If you experience any problems with Emacs somehow selecting all the text
-;; and forcing you to line 1, write an issue.
 (defun c-formatter-42 ()
   "Format the current buffer using the c_formatter_42 tool."
   (interactive)
@@ -62,12 +48,7 @@
       (shell-command-on-region (point-min) (point-max) c-formatter-42-exec nil t))
     (goto-char pos)))
 
-
-
 ;;; Norminette on the current buffer
-;; set's the position of cursor to where it belongs (idk how to fix that without goto-char)
-;; inserts an extra buffer which writes the result of Norminette the length can be changed manually
-;; adjusting the make-string 80 ?-
 (defun norminette ()
   "Run Norminette on the current file and display the result in a new buffer."
   (interactive)
@@ -88,7 +69,6 @@
         (display-buffer buf)))))
 
 ;;; After-save just calls the c-formatter-42 defun :-)
-;;;###autoload
 (add-hook 'before-save-hook
           (lambda ()
             (when (and (eq major-mode 'c-mode)
@@ -114,8 +94,6 @@
 ;;;###autoload
 (add-hook 'c++-mode-hook 'c-formatter-42-mode)
 
-
-;;; So that you can require all that mess without needing to Copy paste it to init.el :c
 (provide 'c-formatter-42)
 
 ;;; c-formatter-42.el ends here
